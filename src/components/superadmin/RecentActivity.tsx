@@ -103,41 +103,48 @@ export function RecentActivity() {
   };
 
   return (
-    <Card>
+    <Card className="border-border hover:shadow-lg transition-shadow duration-300">
       <CardHeader>
-        <CardTitle className="text-lg">Recent Activity</CardTitle>
+        <CardTitle className="text-lg font-display font-semibold">Recent Activity</CardTitle>
       </CardHeader>
       <CardContent>
         {loading ? (
-          <div className="flex items-center justify-center py-8">
-            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+          <div className="flex items-center justify-center py-12">
+            <div className="text-center space-y-3">
+              <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto" />
+              <p className="text-sm text-muted-foreground">Loading activity...</p>
+            </div>
           </div>
         ) : (
-          <ScrollArea className="h-[400px] pr-4">
-            <div className="space-y-4">
+          <ScrollArea className="h-[480px] pr-4">
+            <div className="space-y-3">
               {activities.map((activity) => (
-                <div key={activity.id} className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
-                  <div className="p-2 rounded-full bg-muted">
+                <div key={activity.id} className="flex items-start gap-4 p-4 rounded-xl hover:bg-muted/50 transition-all duration-200 group border border-transparent hover:border-border">
+                  <div className="p-2.5 rounded-xl bg-muted/80 group-hover:bg-muted transition-colors">
                     {getIcon(activity.type)}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="font-medium text-sm">{activity.title}</span>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="font-medium text-sm text-foreground">{activity.title}</span>
                       {getTypeBadge(activity.type)}
                     </div>
-                    <p className="text-sm text-muted-foreground truncate">
+                    <p className="text-sm text-muted-foreground truncate mb-1">
                       {activity.subtitle}
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1">
+                    <p className="text-xs font-medium text-muted-foreground/80">
                       {formatDistanceToNow(new Date(activity.timestamp), { addSuffix: true })}
                     </p>
                   </div>
                 </div>
               ))}
               {activities.length === 0 && (
-                <p className="text-center text-muted-foreground py-8">
-                  No recent activity
-                </p>
+                <div className="text-center py-12">
+                  <div className="h-16 w-16 rounded-full bg-muted/50 flex items-center justify-center mx-auto mb-4">
+                    <Activity className="h-8 w-8 text-muted-foreground/50" />
+                  </div>
+                  <p className="text-sm font-medium text-foreground mb-1">No recent activity</p>
+                  <p className="text-xs text-muted-foreground">Activity will appear here as users interact with the platform</p>
+                </div>
               )}
             </div>
           </ScrollArea>
