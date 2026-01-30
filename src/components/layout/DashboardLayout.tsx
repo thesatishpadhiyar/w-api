@@ -74,22 +74,22 @@ export function DashboardLayout() {
     .toUpperCase() || user?.email?.[0].toUpperCase() || '?';
 
   return (
-    <div className="min-h-screen bg-background flex w-full">
+    <div className="min-h-screen bg-surface-2 flex w-full">
       {/* Desktop Sidebar */}
       <aside
         className={cn(
-          "hidden lg:flex flex-col bg-sidebar border-r border-sidebar-border transition-all duration-300 ease-out",
-          sidebarOpen ? "w-64" : "w-20"
+          "hidden lg:flex flex-col bg-sidebar border-r border-sidebar-border transition-all duration-300 ease-out shadow-xl",
+          sidebarOpen ? "w-72" : "w-20"
         )}
       >
         {/* Logo */}
-        <div className="h-16 flex items-center px-4 border-b border-sidebar-border">
-          <Link to="/dashboard" className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-gradient-brand flex items-center justify-center shadow-md flex-shrink-0">
-              <MessageSquare className="h-5 w-5 text-primary-foreground" />
+        <div className="h-20 flex items-center px-5 border-b border-sidebar-border/50">
+          <Link to="/dashboard" className="flex items-center gap-3 group">
+            <div className="h-11 w-11 rounded-xl bg-gradient-brand flex items-center justify-center shadow-lg flex-shrink-0 group-hover:scale-105 transition-transform">
+              <MessageSquare className="h-6 w-6 text-primary-foreground" />
             </div>
             {sidebarOpen && (
-              <span className="text-lg font-display font-bold text-sidebar-foreground">
+              <span className="text-xl font-display font-bold text-sidebar-foreground tracking-tight">
                 Chat Setu
               </span>
             )}
@@ -98,12 +98,12 @@ export function DashboardLayout() {
 
         {/* WhatsApp Number Selector */}
         {sidebarOpen && numbers.length > 0 && (
-          <div className="p-4 border-b border-sidebar-border">
+          <div className="p-5 border-b border-sidebar-border/50">
             <Select
               value={selectedNumber?.id || ''}
               onValueChange={selectNumber}
             >
-              <SelectTrigger className="w-full bg-sidebar-accent border-sidebar-border text-sidebar-foreground">
+              <SelectTrigger className="w-full bg-sidebar-accent/50 border-sidebar-border/50 text-sidebar-foreground hover:bg-sidebar-accent transition-colors h-11">
                 <SelectValue placeholder="Select a number" />
               </SelectTrigger>
               <SelectContent>
@@ -126,7 +126,7 @@ export function DashboardLayout() {
         )}
 
         {/* Navigation */}
-        <nav className="flex-1 p-3 space-y-1">
+        <nav className="flex-1 p-4 space-y-2">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
             return (
@@ -134,15 +134,15 @@ export function DashboardLayout() {
                 key={item.path}
                 to={item.path}
                 className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200",
+                  "flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group",
                   isActive
-                    ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-md"
-                    : "text-sidebar-foreground hover:bg-sidebar-accent"
+                    ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-lg"
+                    : "text-sidebar-foreground/80 hover:text-sidebar-foreground hover:bg-sidebar-accent/50"
                 )}
               >
-                <item.icon className="h-5 w-5 flex-shrink-0" />
+                <item.icon className={cn("h-5 w-5 flex-shrink-0", isActive && "scale-110")} />
                 {sidebarOpen && (
-                  <span className="font-medium">{item.label}</span>
+                  <span className="font-medium text-sm">{item.label}</span>
                 )}
               </Link>
             );
@@ -150,11 +150,11 @@ export function DashboardLayout() {
         </nav>
 
         {/* Sidebar Toggle */}
-        <div className="p-4 border-t border-sidebar-border">
+        <div className="p-5 border-t border-sidebar-border/50">
           <Button
             variant="ghost"
             size="icon"
-            className="text-sidebar-foreground hover:bg-sidebar-accent w-full justify-center"
+            className="text-sidebar-foreground hover:bg-sidebar-accent/50 w-full justify-center h-11 rounded-xl transition-colors"
             onClick={() => setSidebarOpen(!sidebarOpen)}
           >
             {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -209,11 +209,11 @@ export function DashboardLayout() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top Bar */}
-        <header className="h-16 flex items-center justify-between px-4 lg:px-6 border-b border-border bg-card">
+        <header className="h-20 flex items-center justify-between px-6 lg:px-8 border-b border-border bg-background/80 backdrop-blur-md sticky top-0 z-40 shadow-sm">
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden"
+            className="lg:hidden hover:bg-muted"
             onClick={() => setMobileMenuOpen(true)}
           >
             <Menu className="h-5 w-5" />
@@ -222,7 +222,7 @@ export function DashboardLayout() {
           {/* Right side */}
           <div className="flex items-center gap-4 ml-auto">
             {!selectedNumber && numbers.length === 0 && (
-              <Button variant="hero" size="sm" asChild>
+              <Button variant="hero" size="default" asChild className="shadow-md">
                 <Link to="/dashboard/numbers">
                   <Plus className="h-4 w-4" />
                   Connect WhatsApp
@@ -232,10 +232,10 @@ export function DashboardLayout() {
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center gap-2">
-                  <Avatar className="h-8 w-8">
+                <Button variant="ghost" className="flex items-center gap-3 h-11 px-3 hover:bg-muted rounded-xl">
+                  <Avatar className="h-9 w-9 border-2 border-border shadow-sm">
                     <AvatarImage src={profile?.avatar_url || undefined} />
-                    <AvatarFallback className="bg-primary text-primary-foreground text-sm">
+                    <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
                       {initials}
                     </AvatarFallback>
                   </Avatar>
@@ -245,31 +245,31 @@ export function DashboardLayout() {
                   <ChevronDown className="h-4 w-4 text-muted-foreground" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel>
-                  <div className="flex flex-col">
-                    <span className="font-medium">{profile?.full_name || 'User'}</span>
-                    <span className="text-xs text-muted-foreground">{user?.email}</span>
+              <DropdownMenuContent align="end" className="w-64 p-2">
+                <DropdownMenuLabel className="p-3">
+                  <div className="flex flex-col space-y-1">
+                    <span className="font-semibold text-base">{profile?.full_name || 'User'}</span>
+                    <span className="text-xs text-muted-foreground font-normal">{user?.email}</span>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {isSuperAdmin && (
-                  <DropdownMenuItem asChild>
-                    <Link to="/superadmin" className="cursor-pointer">
-                      <Shield className="h-4 w-4 mr-2 text-destructive" />
+                  <DropdownMenuItem asChild className="cursor-pointer p-3 rounded-lg">
+                    <Link to="/superadmin">
+                      <Shield className="h-4 w-4 mr-3 text-destructive" />
                       SuperAdmin Panel
                     </Link>
                   </DropdownMenuItem>
                 )}
-                <DropdownMenuItem asChild>
-                  <Link to="/dashboard/settings" className="cursor-pointer">
-                    <Settings className="h-4 w-4 mr-2" />
+                <DropdownMenuItem asChild className="cursor-pointer p-3 rounded-lg">
+                  <Link to="/dashboard/settings">
+                    <Settings className="h-4 w-4 mr-3" />
                     Settings
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={signOut} className="text-destructive cursor-pointer">
-                  <LogOut className="h-4 w-4 mr-2" />
+                <DropdownMenuItem onClick={signOut} className="text-destructive cursor-pointer p-3 rounded-lg">
+                  <LogOut className="h-4 w-4 mr-3" />
                   Sign out
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -278,14 +278,14 @@ export function DashboardLayout() {
         </header>
 
         {/* Page Content - extra padding bottom for mobile nav */}
-        <main className="flex-1 overflow-auto pb-16 lg:pb-0">
+        <main className="flex-1 overflow-auto pb-16 lg:pb-0 bg-surface-2">
           <Outlet />
         </main>
       </div>
 
       {/* Mobile Bottom Navigation */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-card border-t border-border z-50 safe-area-inset-bottom">
-        <div className="flex items-center justify-around h-16">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-lg border-t border-border z-50 safe-area-inset-bottom shadow-2xl">
+        <div className="flex items-center justify-around h-16 px-2">
           {mobileNavItems.map((item) => {
             const isActive = location.pathname === item.path;
             return (
@@ -293,14 +293,14 @@ export function DashboardLayout() {
                 key={item.path}
                 to={item.path}
                 className={cn(
-                  "flex flex-col items-center justify-center flex-1 h-full gap-1 transition-colors",
+                  "flex flex-col items-center justify-center flex-1 h-full gap-1.5 transition-all rounded-lg",
                   isActive
                     ? "text-primary"
-                    : "text-muted-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                <item.icon className={cn("h-5 w-5", isActive && "text-primary")} />
-                <span className="text-[10px] font-medium">{item.label}</span>
+                <item.icon className={cn("h-5 w-5", isActive && "scale-110")} />
+                <span className="text-[10px] font-semibold">{item.label}</span>
               </Link>
             );
           })}

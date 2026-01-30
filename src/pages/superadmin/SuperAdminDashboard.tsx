@@ -103,15 +103,15 @@ export default function SuperAdminDashboard() {
   };
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">SuperAdmin Dashboard</h1>
-          <p className="text-muted-foreground">Platform overview and analytics</p>
+    <div className="p-6 md:p-8 lg:p-10 space-y-8 max-w-[1600px] mx-auto">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div className="space-y-1">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-display font-bold tracking-tight">SuperAdmin Dashboard</h1>
+          <p className="text-sm md:text-base text-muted-foreground">Platform overview and analytics</p>
         </div>
-        <Button onClick={fetchStats} variant="outline" size="sm" disabled={loading}>
+        <Button onClick={fetchStats} variant="outline" size="lg" disabled={loading} className="shadow-sm">
           <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-          Refresh
+          Refresh Data
         </Button>
       </div>
 
@@ -119,11 +119,7 @@ export default function SuperAdminDashboard() {
       
       <AnalyticsCharts />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-3">
-          <RecentActivity />
-        </div>
-      </div>
+      <RecentActivity />
     </div>
   );
 }

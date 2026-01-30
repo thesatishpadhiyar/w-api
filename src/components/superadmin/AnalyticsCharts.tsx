@@ -155,58 +155,64 @@ export function AnalyticsCharts() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      <div className="flex items-center justify-center py-16">
+        <div className="text-center space-y-3">
+          <Loader2 className="h-10 w-10 animate-spin text-primary mx-auto" />
+          <p className="text-sm text-muted-foreground">Loading analytics...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
       {/* Message Trends Chart */}
-      <Card className="col-span-1 lg:col-span-2">
+      <Card className="col-span-1 lg:col-span-2 border-border hover:shadow-lg transition-shadow duration-300">
         <CardHeader>
-          <CardTitle className="text-lg">Message Volume (Last 14 Days)</CardTitle>
+          <CardTitle className="text-lg font-display font-semibold">Message Volume (Last 14 Days)</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-[300px]">
+          <div className="h-[320px]">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={messageTrends}>
                 <defs>
                   <linearGradient id="inboundGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="hsl(var(--chart-1))" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="hsl(var(--chart-1))" stopOpacity={0} />
+                    <stop offset="5%" stopColor="hsl(var(--chart-1))" stopOpacity={0.4} />
+                    <stop offset="95%" stopColor="hsl(var(--chart-1))" stopOpacity={0.05} />
                   </linearGradient>
                   <linearGradient id="outboundGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="hsl(var(--chart-2))" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="hsl(var(--chart-2))" stopOpacity={0} />
+                    <stop offset="5%" stopColor="hsl(var(--chart-2))" stopOpacity={0.4} />
+                    <stop offset="95%" stopColor="hsl(var(--chart-2))" stopOpacity={0.05} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                <CartesianGrid strokeDasharray="3 3" className="stroke-muted/30" opacity={0.5} />
                 <XAxis 
                   dataKey="date" 
-                  tick={{ fontSize: 12 }} 
-                  className="text-muted-foreground"
+                  tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+                  tickLine={false}
+                  axisLine={false}
                 />
                 <YAxis 
-                  tick={{ fontSize: 12 }} 
-                  className="text-muted-foreground"
+                  tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+                  tickLine={false}
+                  axisLine={false}
                 />
                 <Tooltip 
                   contentStyle={{ 
                     backgroundColor: 'hsl(var(--card))', 
                     border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px'
+                    borderRadius: '12px',
+                    boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
                   }}
                 />
-                <Legend />
+                <Legend iconType="circle" wrapperStyle={{ paddingTop: '16px' }} />
                 <Area
                   type="monotone"
                   dataKey="inbound"
                   name="Inbound"
                   stroke="hsl(var(--chart-1))"
                   fill="url(#inboundGradient)"
-                  strokeWidth={2}
+                  strokeWidth={3}
                 />
                 <Area
                   type="monotone"
@@ -214,7 +220,7 @@ export function AnalyticsCharts() {
                   name="Outbound"
                   stroke="hsl(var(--chart-2))"
                   fill="url(#outboundGradient)"
-                  strokeWidth={2}
+                  strokeWidth={3}
                 />
               </AreaChart>
             </ResponsiveContainer>
@@ -223,36 +229,39 @@ export function AnalyticsCharts() {
       </Card>
 
       {/* User Growth Chart */}
-      <Card>
+      <Card className="border-border hover:shadow-lg transition-shadow duration-300">
         <CardHeader>
-          <CardTitle className="text-lg">User Growth</CardTitle>
+          <CardTitle className="text-lg font-display font-semibold">User Growth</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-[250px]">
+          <div className="h-[280px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={userGrowth}>
-                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                <CartesianGrid strokeDasharray="3 3" className="stroke-muted/30" opacity={0.5} />
                 <XAxis 
                   dataKey="date" 
-                  tick={{ fontSize: 11 }} 
-                  className="text-muted-foreground"
+                  tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
+                  tickLine={false}
+                  axisLine={false}
                 />
                 <YAxis 
-                  tick={{ fontSize: 12 }} 
-                  className="text-muted-foreground"
+                  tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+                  tickLine={false}
+                  axisLine={false}
                 />
                 <Tooltip 
                   contentStyle={{ 
                     backgroundColor: 'hsl(var(--card))', 
                     border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px'
+                    borderRadius: '12px',
+                    boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
                   }}
                 />
                 <Bar 
                   dataKey="users" 
                   name="Total Users"
                   fill="hsl(var(--chart-1))" 
-                  radius={[4, 4, 0, 0]}
+                  radius={[6, 6, 0, 0]}
                 />
               </BarChart>
             </ResponsiveContainer>
@@ -261,24 +270,24 @@ export function AnalyticsCharts() {
       </Card>
 
       {/* Status Distribution */}
-      <Card>
+      <Card className="border-border hover:shadow-lg transition-shadow duration-300">
         <CardHeader>
-          <CardTitle className="text-lg">Status Distribution</CardTitle>
+          <CardTitle className="text-lg font-display font-semibold">Status Distribution</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-6">
             <div>
-              <p className="text-sm text-muted-foreground mb-2 text-center">Users</p>
-              <div className="h-[180px]">
+              <p className="text-sm font-medium text-muted-foreground mb-3 text-center">Users</p>
+              <div className="h-[200px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
                       data={userStatus}
                       cx="50%"
                       cy="50%"
-                      innerRadius={40}
-                      outerRadius={70}
-                      paddingAngle={2}
+                      innerRadius={45}
+                      outerRadius={75}
+                      paddingAngle={3}
                       dataKey="value"
                     >
                       {userStatus.map((entry, index) => (
@@ -294,23 +303,24 @@ export function AnalyticsCharts() {
                     />
                     <Legend 
                       wrapperStyle={{ fontSize: '11px' }}
+                      iconType="circle"
                     />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
             </div>
             <div>
-              <p className="text-sm text-muted-foreground mb-2 text-center">WhatsApp Numbers</p>
-              <div className="h-[180px]">
+              <p className="text-sm font-medium text-muted-foreground mb-3 text-center">WhatsApp Numbers</p>
+              <div className="h-[200px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
                       data={numberStatus}
                       cx="50%"
                       cy="50%"
-                      innerRadius={40}
-                      outerRadius={70}
-                      paddingAngle={2}
+                      innerRadius={45}
+                      outerRadius={75}
+                      paddingAngle={3}
                       dataKey="value"
                     >
                       {numberStatus.map((entry, index) => (
@@ -326,6 +336,7 @@ export function AnalyticsCharts() {
                     />
                     <Legend 
                       wrapperStyle={{ fontSize: '11px' }}
+                      iconType="circle"
                     />
                   </PieChart>
                 </ResponsiveContainer>

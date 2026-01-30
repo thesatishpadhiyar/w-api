@@ -70,23 +70,23 @@ export function StatsCards({ stats, loading }: StatsCardsProps) {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
       {statCards.map((card) => (
-        <Card key={card.title} className="relative overflow-hidden">
-          <div className={cn("absolute top-0 right-0 w-24 h-24 -mr-8 -mt-8 rounded-full opacity-20", card.bgColor)} />
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
+        <Card key={card.title} className="relative overflow-hidden border-border hover:shadow-xl hover:border-primary/20 transition-all duration-300 group">
+          <div className={cn("absolute top-0 right-0 w-32 h-32 -mr-16 -mt-16 rounded-full opacity-10 group-hover:scale-150 transition-transform duration-500", card.bgColor)} />
+          <CardHeader className="flex flex-row items-center justify-between pb-3 relative">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               {card.title}
             </CardTitle>
-            <div className={cn("p-2 rounded-lg", card.bgColor)}>
-              <card.icon className={cn("h-4 w-4", card.color)} />
+            <div className={cn("p-2.5 rounded-xl shadow-sm", card.bgColor)}>
+              <card.icon className={cn("h-5 w-5", card.color)} />
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">
-              {loading ? '...' : card.value.toLocaleString()}
+          <CardContent className="relative">
+            <div className="text-3xl lg:text-4xl font-bold tracking-tight mb-2">
+              {loading ? <span className="text-muted-foreground">...</span> : card.value.toLocaleString()}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-xs font-medium text-muted-foreground leading-relaxed">
               {card.subtitle}
             </p>
           </CardContent>
